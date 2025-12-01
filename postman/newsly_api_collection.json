@@ -1,0 +1,527 @@
+{
+  "info": {
+    "_postman_id": "newsly-api-collection",
+    "name": "Newsly API",
+    "description": "Complete API collection for Newsly news aggregator application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health",
+        "description": "Check API health status"
+      }
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Google Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/google",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_token\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\"\n}"
+            },
+            "description": "Login with Google ID Token from mobile app"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"message\": \"Login successful\",\n  \"data\": {\n    \"token\": \"1|abc123...\",\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Ahmed\",\n      \"email\": \"ahmed@gmail.com\",\n      \"avatar\": \"https://...\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/auth/me",
+            "description": "Get authenticated user profile"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/logout",
+            "description": "Logout and revoke current token"
+          }
+        },
+        {
+          "name": "Logout All Devices",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/logout-all",
+            "description": "Logout from all devices"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/user",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmed Mohamed\",\n  \"country_id\": 1,\n  \"language\": \"ar\",\n  \"settings\": {\n    \"notifications_enabled\": true,\n    \"breaking_only\": false\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Register Device (FCM)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/user/device",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"android\",\n  \"fcm_token\": \"dXYZ123abc...\",\n  \"device_name\": \"Samsung Galaxy S21\",\n  \"app_version\": \"1.0.0\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Notification Settings",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/user/notifications/settings"
+          }
+        },
+        {
+          "name": "Update Notification Settings",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/user/notifications/settings",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notifications_enabled\": true,\n  \"breaking_only\": true,\n  \"dnd_start\": \"23:00\",\n  \"dnd_end\": \"07:00\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Countries",
+      "item": [
+        {
+          "name": "List Countries",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/countries",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Get Country",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/countries/1",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/categories",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Get Category",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/categories/1",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sources",
+      "item": [
+        {
+          "name": "List Sources",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/sources?country_id=1&category_id=1&active=1&per_page=20",
+              "host": ["{{base_url}}"],
+              "path": ["sources"],
+              "query": [
+                {"key": "country_id", "value": "1"},
+                {"key": "category_id", "value": "1"},
+                {"key": "active", "value": "1"},
+                {"key": "per_page", "value": "20"}
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Get Source",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/sources/1",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Articles",
+      "item": [
+        {
+          "name": "List Articles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/articles?country_id=1&source_id=1&category_id=1&breaking=1&per_page=20&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["articles"],
+              "query": [
+                {"key": "country_id", "value": "1"},
+                {"key": "source_id", "value": "1"},
+                {"key": "category_id", "value": "1"},
+                {"key": "breaking", "value": "1"},
+                {"key": "per_page", "value": "20"},
+                {"key": "page", "value": "1"}
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Latest Articles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/articles/latest?country_id=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["articles", "latest"],
+              "query": [
+                {"key": "country_id", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Breaking News",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/articles/breaking?country_id=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["articles", "breaking"],
+              "query": [
+                {"key": "country_id", "value": "1"},
+                {"key": "limit", "value": "10"}
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Get Article",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/articles/1",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Mark Article as Read",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/articles/mark-read",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"article_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Read History",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/articles/history"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookmarks",
+      "item": [
+        {
+          "name": "List Bookmarks",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/bookmarks"
+          }
+        },
+        {
+          "name": "Add Bookmark",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/bookmarks",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"article_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove Bookmark",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/bookmarks/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "List Subscriptions",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/subscriptions"
+          }
+        },
+        {
+          "name": "Subscribe to Source",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/subscriptions",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_id\": 1,\n  \"notifications_enabled\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Subscribe to Category",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/subscriptions",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_id\": 1,\n  \"notifications_enabled\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Subscribe to Country",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/subscriptions",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"country_id\": 1,\n  \"notifications_enabled\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Subscription",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/subscriptions/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notifications_enabled\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Unsubscribe",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/subscriptions/1"
+          }
+        },
+        {
+          "name": "Sync Subscriptions",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/subscriptions/sync",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_ids\": [1, 2, 3],\n  \"category_ids\": [1, 2],\n  \"country_ids\": [1]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "List Notifications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/notifications?per_page=20&unread_only=0",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"],
+              "query": [
+                {"key": "per_page", "value": "20"},
+                {"key": "unread_only", "value": "0"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Unread Count",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/notifications/unread-count"
+          }
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/notifications/1/read"
+          }
+        },
+        {
+          "name": "Mark All as Read",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/notifications/mark-all-read"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+
