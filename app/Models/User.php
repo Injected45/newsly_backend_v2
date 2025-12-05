@@ -28,6 +28,7 @@ class User extends Authenticatable
         'timezone',
         'last_login_at',
         'last_login_ip',
+        'setup_completed_at',
     ];
 
     protected $hidden = [
@@ -39,6 +40,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'setup_completed_at' => 'datetime',
         'settings' => 'array',
         'password' => 'hashed',
     ];
@@ -173,5 +175,21 @@ class User extends Authenticatable
     public static function findByEmail(string $email): ?self
     {
         return static::where('email', $email)->first();
+    }
+
+    /**
+     * Check if user has completed initial setup
+     */
+    public function hasCompletedSetup(): bool
+    {
+        return !is_null($this->setup_completed_at);
+    }
+
+    /**
+     * Mark user setup as completed
+     */
+    public function completeSetup(): void
+    {
+        $this->update(['setup_completed_at' => now()]);
     }
 }

@@ -51,6 +51,23 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * Convert an authentication exception into a response.
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        // Check if it's an admin guard
+        if (in_array('admin', $exception->guards())) {
+            return redirect()->guest(route('admin.login'));
+        }
+
+        return redirect()->guest(route('admin.login'));
+    }
+
+    /**
      * Convert a validation exception into a JSON response.
      */
     protected function invalidJson($request, ValidationException $exception)
@@ -62,5 +79,6 @@ class Handler extends ExceptionHandler
         ], $exception->status);
     }
 }
+
 
 

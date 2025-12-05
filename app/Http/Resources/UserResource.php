@@ -19,9 +19,12 @@ class UserResource extends JsonResource
             'settings' => $this->settings,
             'country' => new CountryResource($this->whenLoaded('country')),
             'subscriptions' => SubscriptionResource::collection($this->whenLoaded('subscriptions')),
+            'setup_completed_at' => $this->setup_completed_at?->toISOString(),
+            'needs_setup' => !$this->hasCompletedSetup(),
             'created_at' => $this->created_at?->toISOString(),
         ];
     }
 }
+
 
 

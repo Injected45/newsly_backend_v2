@@ -1,0 +1,125 @@
+{
+  "name": "User Setup",
+  "description": "Initial user setup endpoints (Country & Sources selection)",
+  "item": [
+    {
+      "name": "Check Setup Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/setup/check",
+          "host": ["{{base_url}}"],
+          "path": ["setup", "check"]
+        },
+        "description": "Check if user needs to complete initial setup"
+      },
+      "response": [
+        {
+          "name": "Needs Setup",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"needs_setup\": true,\n    \"setup_completed_at\": null\n  }\n}"
+        },
+        {
+          "name": "Setup Completed",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"needs_setup\": false,\n    \"setup_completed_at\": \"2025-12-04T12:30:00.000000Z\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Complete Setup",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"country_id\": 1,\n  \"source_ids\": [1, 2, 3, 5, 8]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/setup/complete",
+          "host": ["{{base_url}}"],
+          "path": ["setup", "complete"]
+        },
+        "description": "Complete initial user setup by selecting country and sources"
+      },
+      "response": [
+        {
+          "name": "Success",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"message\": \"Setup completed successfully\",\n  \"data\": {\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Ahmed Mohamed\",\n      \"email\": \"ahmed@example.com\",\n      \"country\": {\n        \"id\": 1,\n        \"name_ar\": \"مصر\",\n        \"name_en\": \"Egypt\",\n        \"code\": \"EG\",\n        \"flag\": \"🇪🇬\"\n      },\n      \"setup_completed_at\": \"2025-12-04T12:30:00.000000Z\",\n      \"needs_setup\": false,\n      \"subscriptions\": [\n        {\n          \"id\": 1,\n          \"source\": {\n            \"id\": 1,\n            \"name_ar\": \"اليوم السابع\",\n            \"name_en\": \"Youm7\"\n          },\n          \"notify_breaking\": true,\n          \"notify_new_articles\": true\n        }\n      ]\n    },\n    \"message\": \"تم إكمال الإعداد بنجاح\"\n  }\n}"
+        },
+        {
+          "name": "Already Completed",
+          "status": "Bad Request",
+          "code": 400,
+          "body": "{\n  \"success\": false,\n  \"message\": \"تم إكمال الإعداد مسبقاً\"\n}"
+        },
+        {
+          "name": "Validation Error",
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": {\n    \"country_id\": [\"يجب اختيار الدولة\"],\n    \"source_ids\": [\"يجب اختيار مصدر واحد على الأقل\"]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Skip Setup",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/setup/skip",
+          "host": ["{{base_url}}"],
+          "path": ["setup", "skip"]
+        },
+        "description": "Skip initial setup (user can complete it later from settings)"
+      },
+      "response": [
+        {
+          "name": "Success",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"message\": \"Setup skipped\",\n  \"data\": {\n    \"message\": \"تم تخطي الإعداد\"\n  }\n}"
+        }
+      ]
+    }
+  ]
+}
+
+
+

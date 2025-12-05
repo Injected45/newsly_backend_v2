@@ -55,6 +55,7 @@ class RssFetcherService
 
             $response = Http::withHeaders($headers)
                 ->timeout($this->timeout)
+                ->withoutVerifying() // Disable SSL verification for development
                 ->get($source->rss_url);
 
             $runtimeMs = (int) ((microtime(true) - $startTime) * 1000);
@@ -310,5 +311,6 @@ class RssFetcherService
         return trim($text);
     }
 }
+
 
 

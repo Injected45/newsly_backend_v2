@@ -82,3 +82,4 @@ class FetchRssJob implements ShouldQueue, ShouldBeUnique
 }
 
 
+

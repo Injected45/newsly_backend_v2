@@ -6,51 +6,51 @@
 <!-- Stats Cards -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Users Card -->
-    <div class="card p-6">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
             </div>
-            <span class="badge badge-success">+{{ $stats['users_today'] }} اليوم</span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">+{{ $stats['users_today'] }} اليوم</span>
         </div>
         <h3 class="text-3xl font-bold mb-1">{{ number_format($stats['users']) }}</h3>
-        <p class="text-dark-400 text-sm">المستخدمون</p>
+        <p class="text-slate-400 text-sm">المستخدمون</p>
     </div>
     
     <!-- Articles Card -->
-    <div class="card p-6">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-cyan-600 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                 </svg>
             </div>
-            <span class="badge badge-info">+{{ $stats['articles_today'] }} اليوم</span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-sky-500/20 text-sky-400">+{{ $stats['articles_today'] }} اليوم</span>
         </div>
         <h3 class="text-3xl font-bold mb-1">{{ number_format($stats['articles']) }}</h3>
-        <p class="text-dark-400 text-sm">المقالات</p>
+        <p class="text-slate-400 text-sm">المقالات</p>
     </div>
     
     <!-- Sources Card -->
-    <div class="card p-6">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
                 </svg>
             </div>
-            <span class="badge {{ $stats['active_sources'] == $stats['sources'] ? 'badge-success' : 'badge-warning' }}">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $stats['active_sources'] == $stats['sources'] ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400' }}">
                 {{ $stats['active_sources'] }} نشط
             </span>
         </div>
         <h3 class="text-3xl font-bold mb-1">{{ number_format($stats['sources']) }}</h3>
-        <p class="text-dark-400 text-sm">المصادر</p>
+        <p class="text-slate-400 text-sm">المصادر</p>
     </div>
     
     <!-- Countries Card -->
-    <div class="card p-6">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,65 +59,69 @@
             </div>
         </div>
         <h3 class="text-3xl font-bold mb-1">{{ number_format($stats['countries']) }}</h3>
-        <p class="text-dark-400 text-sm">الدول</p>
+        <p class="text-slate-400 text-sm">الدول</p>
     </div>
 </div>
 
 <!-- Charts Row -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     <!-- Articles Chart -->
-    <div class="card p-6">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
         <h3 class="text-lg font-bold mb-6">المقالات خلال الأسبوع</h3>
-        <canvas id="articlesChart" height="200"></canvas>
+        <div class="h-64">
+            <canvas id="articlesChart"></canvas>
+        </div>
     </div>
     
     <!-- Fetch Stats -->
-    <div class="card p-6">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
         <h3 class="text-lg font-bold mb-6">حالة الجلب (24 ساعة)</h3>
-        <canvas id="fetchChart" height="200"></canvas>
+        <div class="h-64">
+            <canvas id="fetchChart"></canvas>
+        </div>
     </div>
 </div>
 
 <!-- Two Column Layout -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Recent Articles -->
-    <div class="lg:col-span-2 card">
-        <div class="p-6 border-b border-dark-700/50">
+    <div class="lg:col-span-2 bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden">
+        <div class="p-6 border-b border-slate-700/50">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-bold">أحدث المقالات</h3>
-                <a href="{{ route('admin.articles.index') }}" class="text-primary-400 hover:text-primary-300 text-sm">
+                <a href="{{ route('admin.articles.index') }}" class="text-sky-400 hover:text-sky-300 text-sm">
                     عرض الكل →
                 </a>
             </div>
         </div>
-        <div class="divide-y divide-dark-700/50">
+        <div class="divide-y divide-slate-700/50">
             @forelse($recentArticles as $article)
-                <div class="p-4 hover:bg-dark-800/30 transition-colors">
+                <div class="p-4 hover:bg-slate-800/30 transition-colors">
                     <div class="flex gap-4">
                         @if($article->image_url)
                             <img src="{{ $article->image_url }}" alt="" class="w-20 h-16 object-cover rounded-lg flex-shrink-0">
                         @else
-                            <div class="w-20 h-16 bg-dark-700 rounded-lg flex-shrink-0 flex items-center justify-center">
-                                <svg class="w-8 h-8 text-dark-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-20 h-16 bg-slate-700 rounded-lg flex-shrink-0 flex items-center justify-center">
+                                <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
                         @endif
                         <div class="flex-1 min-w-0">
                             <h4 class="font-medium text-white truncate mb-1">{{ $article->title }}</h4>
-                            <div class="flex items-center gap-2 text-sm text-dark-400">
+                            <div class="flex items-center gap-2 text-sm text-slate-400">
                                 <span>{{ $article->source?->name_en }}</span>
                                 <span>•</span>
                                 <span>{{ $article->published_at?->diffForHumans() }}</span>
                                 @if($article->is_breaking)
-                                    <span class="badge badge-danger">عاجل</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/20 text-red-400">عاجل</span>
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="p-8 text-center text-dark-400">
+                <div class="p-8 text-center text-slate-400">
                     لا توجد مقالات حتى الآن
                 </div>
             @endforelse
@@ -125,10 +129,10 @@
     </div>
     
     <!-- Top Sources -->
-    <div class="card">
-        <div class="p-6 border-b border-dark-700/50">
+    <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden">
+        <div class="p-6 border-b border-slate-700/50">
             <h3 class="text-lg font-bold">أكثر المصادر نشاطاً</h3>
-            <p class="text-sm text-dark-400 mt-1">خلال 24 ساعة</p>
+            <p class="text-sm text-slate-400 mt-1">خلال 24 ساعة</p>
         </div>
         <div class="p-4 space-y-4">
             @forelse($topSources as $source)
@@ -136,17 +140,17 @@
                     @if($source->logo)
                         <img src="{{ $source->logo }}" alt="" class="w-10 h-10 rounded-lg object-cover">
                     @else
-                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center text-white font-bold">
+                        <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-sky-600 rounded-lg flex items-center justify-center text-white font-bold">
                             {{ substr($source->name_en, 0, 1) }}
                         </div>
                     @endif
                     <div class="flex-1 min-w-0">
                         <h4 class="font-medium text-white truncate">{{ $source->name_en }}</h4>
-                        <p class="text-sm text-dark-400">{{ $source->articles_count }} مقال</p>
+                        <p class="text-sm text-slate-400">{{ $source->articles_count }} مقال</p>
                     </div>
                 </div>
             @empty
-                <p class="text-center text-dark-400 py-4">لا توجد بيانات</p>
+                <p class="text-center text-slate-400 py-4">لا توجد بيانات</p>
             @endforelse
         </div>
     </div>
@@ -249,5 +253,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endpush
-
-

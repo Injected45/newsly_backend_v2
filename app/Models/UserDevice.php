@@ -99,3 +99,4 @@ class UserDevice extends Model
 }
 
 
+

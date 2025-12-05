@@ -50,7 +50,7 @@
         <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
             <h2 class="text-xl font-bold text-white mb-6">تسجيل الدخول</h2>
             
-            @if($errors->any())
+            @if(isset($errors) && $errors->any())
                 <div class="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-red-400 text-sm">
                     {{ $errors->first() }}
                 </div>
@@ -101,5 +101,6 @@
     </div>
 </body>
 </html>
+
 
 

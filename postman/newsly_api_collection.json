@@ -8,7 +8,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:8000/api",
+      "value": "http://localhost:8080/api",
       "type": "string"
     },
     {
@@ -40,10 +40,10 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Google Login",
+          "name": "Register",
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/auth/google",
+            "url": "{{base_url}}/auth/register",
             "header": [
               {
                 "key": "Content-Type",
@@ -56,16 +56,46 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_token\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\"\n}"
+              "raw": "{\n  \"name\": \"Ahmed Mohamed\",\n  \"email\": \"ahmed@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"country_id\": 1\n}"
             },
-            "description": "Login with Google ID Token from mobile app"
+            "description": "Register a new user account"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"success\": true,\n  \"message\": \"Registration successful\",\n  \"data\": {\n    \"token\": \"1|abc123...\",\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Ahmed Mohamed\",\n      \"email\": \"ahmed@example.com\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmed@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "description": "Login with email and password"
           },
           "response": [
             {
               "name": "Success",
               "status": "OK",
               "code": 200,
-              "body": "{\n  \"success\": true,\n  \"message\": \"Login successful\",\n  \"data\": {\n    \"token\": \"1|abc123...\",\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Ahmed\",\n      \"email\": \"ahmed@gmail.com\",\n      \"avatar\": \"https://...\"\n    }\n  }\n}"
+              "body": "{\n  \"success\": true,\n  \"message\": \"Login successful\",\n  \"data\": {\n    \"token\": \"1|abc123...\",\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Ahmed Mohamed\",\n      \"email\": \"ahmed@example.com\"\n    }\n  }\n}"
             }
           ]
         },
@@ -91,6 +121,24 @@
             "method": "POST",
             "url": "{{base_url}}/auth/logout-all",
             "description": "Logout from all devices"
+          }
+        },
+        {
+          "name": "Update Password",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/update-password",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"oldpassword123\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "description": "Update user password"
           }
         }
       ]
@@ -523,5 +571,3 @@
     }
   ]
 }
-
-

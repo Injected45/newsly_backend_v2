@@ -3,8 +3,8 @@
 @section('title', 'الفئات')
 
 @section('header-actions')
-    <a href="{{ route('admin.categories.create') }}" class="btn-primary">
-        <svg class="w-5 h-5 inline-block ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <a href="{{ route('admin.categories.create') }}" class="bg-gradient-to-l from-sky-600 to-sky-500 text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-200 hover:shadow-lg hover:shadow-sky-500/30 hover:-translate-y-0.5 inline-flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
         إضافة فئة
@@ -13,14 +13,15 @@
 
 @section('content')
 <!-- Search -->
-<div class="card p-4 mb-6">
+<div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 mb-6">
     <form action="" method="GET" class="flex gap-4">
         <div class="flex-1">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="البحث عن فئة..." class="input">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="البحث عن فئة..." 
+                   class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all duration-200">
         </div>
-        <button type="submit" class="btn-secondary">بحث</button>
+        <button type="submit" class="bg-slate-700 text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-200 hover:bg-slate-600">بحث</button>
         @if(request('search'))
-            <a href="{{ route('admin.categories.index') }}" class="btn-secondary">إلغاء</a>
+            <a href="{{ route('admin.categories.index') }}" class="bg-slate-700 text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-200 hover:bg-slate-600">إلغاء</a>
         @endif
     </form>
 </div>
@@ -28,7 +29,7 @@
 <!-- Grid -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     @forelse($categories as $category)
-        <div class="card p-6">
+        <div class="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background-color: {{ $category->color }}20">
                     <svg class="w-6 h-6" style="color: {{ $category->color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,19 +39,19 @@
                 <form action="{{ route('admin.categories.toggle-active', $category) }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="badge {{ $category->is_active ? 'badge-success' : 'badge-danger' }}">
+                    <button type="submit" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $category->is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400' }}">
                         {{ $category->is_active ? 'نشط' : 'معطل' }}
                     </button>
                 </form>
             </div>
             
             <h3 class="font-bold text-white mb-1">{{ $category->name_ar }}</h3>
-            <p class="text-sm text-dark-400 mb-4">{{ $category->name_en }}</p>
+            <p class="text-sm text-slate-400 mb-4">{{ $category->name_en }}</p>
             
             <div class="flex items-center justify-between text-sm">
-                <span class="text-dark-400">{{ $category->sources_count }} مصدر</span>
+                <span class="text-slate-400">{{ $category->sources_count }} مصدر</span>
                 <div class="flex gap-2">
-                    <a href="{{ route('admin.categories.edit', $category) }}" class="text-dark-400 hover:text-primary-400">
+                    <a href="{{ route('admin.categories.edit', $category) }}" class="text-slate-400 hover:text-sky-400">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
@@ -59,7 +60,7 @@
                         <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline" onsubmit="return confirm('هل أنت متأكد؟')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-dark-400 hover:text-red-400">
+                            <button type="submit" class="text-slate-400 hover:text-red-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
@@ -70,8 +71,8 @@
             </div>
         </div>
     @empty
-        <div class="col-span-full card p-12 text-center">
-            <p class="text-dark-400">لا توجد فئات</p>
+        <div class="col-span-full bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-12 text-center">
+            <p class="text-slate-400">لا توجد فئات</p>
         </div>
     @endforelse
 </div>
@@ -82,5 +83,3 @@
     </div>
 @endif
 @endsection
-
-

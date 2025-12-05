@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('link', 2048);
             $table->string('image_url', 2048)->nullable();
             $table->timestamp('published_at')->nullable();
-            $table->timestamp('fetched_at');
+            $table->timestamp('fetched_at')->useCurrent();
             $table->boolean('is_breaking')->default(false);
             $table->boolean('is_featured')->default(false);
             $table->string('language', 10)->nullable();
@@ -52,5 +52,6 @@ return new class extends Migration
         Schema::dropIfExists('articles');
     }
 };
+
 
 

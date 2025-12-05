@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BookmarkController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\SetupController;
 use App\Http\Controllers\Api\SourceController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\UserController;
@@ -29,9 +30,10 @@ Route::get('/health', function () {
 // Public Routes (no authentication required)
 // ============================================
 
-// Auth routes
+// Auth routes (public)
 Route::prefix('auth')->group(function () {
-    Route::post('/google', [AuthController::class, 'google'])->middleware('throttle:10,1');
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:10,1');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 });
 
 // Countries
@@ -64,6 +66,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/logout-all', [AuthController::class, 'logoutAll']);
+        Route::post('/update-password', [AuthController::class, 'updatePassword']);
+    });
+    
+    // Initial Setup (after registration)
+    Route::prefix('setup')->group(function () {
+        Route::get('/check', [SetupController::class, 'checkSetup']);
+        Route::post('/complete', [SetupController::class, 'completeSetup']);
+        Route::post('/skip', [SetupController::class, 'skipSetup']);
     });
     
     // User profile
@@ -103,5 +113,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/mark-all-read', [NotificationController::class, 'markAllRead']);
     });
 });
+
 
 
